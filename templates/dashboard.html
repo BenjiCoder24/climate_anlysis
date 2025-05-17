@@ -1,0 +1,422 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Climate Data Analysis Dashboard</title>
+        <!-- Argon CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/argon-design-system-free@1.2.0/assets/css/argon-design-system.min.css">
+        <style>
+            .visualization-card {
+                margin-bottom: 30px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                transition: transform 0.3s ease;
+            }
+            .visualization-card:hover {
+                transform: translateY(-5px);
+            }
+            .card-body {
+                padding: 1.5rem;
+            }
+            .header-overlay {
+                position: relative;
+                background-image: url('https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+                background-size: cover;
+                background-position: center;
+            }
+            .header-overlay:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background: linear-gradient(135deg, rgba(40,60,120,0.9), rgba(50,140,190,0.9));
+            }
+            .navbar {
+                margin-bottom: 0;
+            }
+            .section {
+                padding: 70px 0;
+            }
+            .section-title {
+                margin-bottom: 30px;
+            }
+            .section-heading {
+                font-weight: 600;
+                margin-bottom: 20px;
+            }
+            .plotly-graph {
+                width: 100%;
+                height: 500px;
+            }
+            .footer {
+                background-color: #172b4d;
+                padding: 30px 0;
+                color: #ced4da;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="#">Climate Analysis Dashboard</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-primary" aria-controls="navbar-primary" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbar-primary">
+                    <ul class="navbar-nav ml-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#global-trends">Global Trends</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#regional-analysis">Regional Analysis</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#seasonal-patterns">Seasonal Patterns</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#extreme-events">Extreme Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#global-map">Global Map</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Header -->
+        <header class="header-overlay">
+            <div class="container py-5 text-center text-white position-relative">
+                <div class="row py-5">
+                    <div class="col-md-8 mx-auto">
+                        <h1 class="display-2">Climate Data Analysis</h1>
+                        <p class="lead">Interactive visualization of temperature trends and patterns from the Global Historical Climatology Network</p>
+                        <a href="#global-trends" class="btn btn-outline-light mt-4">
+                            <i class="fas fa-chart-line mr-2"></i>Explore Visualizations
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Global Trends Section -->
+        <section id="global-trends" class="section bg-default">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center section-title">
+                        <h2 class="section-heading text-primary">Global Temperature Trends</h2>
+                        <p class="lead">Analysis of global average temperature trends from 1960 to 2020</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Global Average Temperature Trend</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="global-temperature-trend" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Regional Analysis Section -->
+        <section id="regional-analysis" class="section bg-secondary">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center section-title">
+                        <h2 class="section-heading text-white">Regional Temperature Analysis</h2>
+                        <p class="lead text-white">Comparison of temperature trends across different regions</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Regional Temperature Anomalies</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="regional-temperature-trends" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Temperature Anomalies Heatmap</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="regional-heatmap" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seasonal Patterns Section -->
+        <section id="seasonal-patterns" class="section bg-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center section-title">
+                        <h2 class="section-heading text-primary">Seasonal Temperature Patterns</h2>
+                        <p class="lead">Analysis of seasonal temperature trends and variability</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Seasonal Temperature Trends</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="seasonal-trends" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Seasonal Temperature Variability</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="seasonal-variability" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Decadal Changes Section -->
+        <section id="decadal-changes" class="section bg-gradient-primary">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center section-title">
+                        <h2 class="section-heading text-white">Decadal Temperature Changes</h2>
+                        <p class="lead text-white">Analysis of temperature changes by decade</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Decadal Average Temperatures</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="decadal-changes" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Temperature Change Between Decades</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="decadal-changes-heatmap" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Extreme Events Section -->
+        <section id="extreme-events" class="section bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center section-title">
+                        <h2 class="section-heading text-primary">Extreme Temperature Events</h2>
+                        <p class="lead">Analysis of extreme hot and cold temperature events</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Extreme Hot Temperature Events</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="extreme-hot-events" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Extreme Cold Temperature Events</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="extreme-cold-events" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Ratio of Hot to Cold Events</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="extreme-ratio" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Global Map Section -->
+        <section id="global-map" class="section bg-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center section-title">
+                        <h2 class="section-heading text-primary">Global Temperature Map</h2>
+                        <p class="lead">Geographic visualization of recent global temperatures</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow visualization-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Global Average Temperatures (2010-2020)</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="global-map-plot" class="plotly-graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="copyright">
+                            © 2025 Climate Data Analysis Project
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="nav nav-footer justify-content-end">
+                            <li class="nav-item">
+                                <a href="https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-monthly" class="nav-link" target="_blank">GHCN-M Dataset</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://plotly.com/" class="nav-link" target="_blank">Plotly</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://fastapi.tiangolo.com/" class="nav-link" target="_blank">FastAPI</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+        <!-- Core JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/argon-design-system-free@1.2.0/assets/js/argon-design-system.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
+        <!-- Dashboard JavaScript -->
+        <script>
+            // Load plots from API
+            document.addEventListener('DOMContentLoaded', function() {
+                // Global temperature trend
+                fetch('/api/plots/global-temperature-trend')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('global-temperature-trend', fig.data, fig.layout, {responsive: true}));
+                
+                // Regional temperature trends
+                fetch('/api/plots/regional-temperature-trends')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('regional-temperature-trends', fig.data, fig.layout, {responsive: true}));
+                
+                // Regional heatmap
+                fetch('/api/plots/regional-heatmap')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('regional-heatmap', fig.data, fig.layout, {responsive: true}));
+                
+                // Seasonal trends
+                fetch('/api/plots/seasonal-trends')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('seasonal-trends', fig.data, fig.layout, {responsive: true}));
+                
+                // Seasonal variability
+                fetch('/api/plots/seasonal-variability')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('seasonal-variability', fig.data, fig.layout, {responsive: true}));
+                
+                // Decadal changes
+                fetch('/api/plots/decadal-changes')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('decadal-changes', fig.data, fig.layout, {responsive: true}));
+                
+                // Decadal changes heatmap
+                fetch('/api/plots/decadal-changes-heatmap')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('decadal-changes-heatmap', fig.data, fig.layout, {responsive: true}));
+                
+                // Extreme hot events
+                fetch('/api/plots/extreme-hot-events')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('extreme-hot-events', fig.data, fig.layout, {responsive: true}));
+                
+                // Extreme cold events
+                fetch('/api/plots/extreme-cold-events')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('extreme-cold-events', fig.data, fig.layout, {responsive: true}));
+                
+                // Extreme ratio
+                fetch('/api/plots/extreme-ratio')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('extreme-ratio', fig.data, fig.layout, {responsive: true}));
+                
+                // Global map
+                fetch('/api/plots/global-map')
+                    .then(response => response.json())
+                    .then(fig => Plotly.newPlot('global-map-plot', fig.data, fig.layout, {responsive: true}));
+            });
+
+            // Smooth scrolling for anchor links
+            $(document).ready(function() {
+                $('a[href*="#"]').not('[href="#"]').not('[href="#0"]').click(function(event) {
+                    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                        let target = $(this.hash);
+                        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                        if (target.length) {
+                            event.preventDefault();
+                            $('html, body').animate({
+                                scrollTop: target.offset().top - 70
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+    </html>
+    
